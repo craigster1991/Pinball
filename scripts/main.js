@@ -14,7 +14,6 @@ var flipperLeft;
 var flipperRight;
 var jointLeft;
 var jointRight;
-var blocker;
 
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -60,7 +59,7 @@ function init() {
   var w = $('#container').width(); 
   var h = $('#container').height();
   
-  createBox(0, h , w, 2, true);
+  createBox(0, h , w, 2, true, null, 0);
   createBox(0, 0, 2, h, true, -2);
   createBox(w, 0, 2, h, true, -2);
   createBox(0, 0, w, 2, true);
@@ -68,29 +67,36 @@ function init() {
   interval = setInterval(update,1000/60);
   update();
   
-  window.addEventListener("keydown", function(e) {
+  window.addEventListener("keypress", function(e) {
     if([32].indexOf(e.keyCode) > -1) {
       e.preventDefault();
-      flipperLeft.ApplyImpulse(new b2Vec2(0, -750000), flipperLeft.GetWorldCenter());
-      flipperRight.ApplyImpulse(new b2Vec2(0, -750000), flipperRight.GetWorldCenter());
+      flipperLeft.ApplyTorque( -7500);  
+      flipperRight.ApplyTorque( 7500);  
     }
   }, false);
 }
 
 function createDOMObjects() {
-  blocker = domBox($('.blocker'), true, -1);
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
   leftPin = domCircle($('.static-circle-l'), true);
   rightPin = domCircle($('.static-circle-r'), true);
-  
-  jointLeft = new b2RevoluteJointDef;
-  jointLeft.Initialize(flipperLeft, leftPin, leftPin.GetWorldCenter());
-  world.CreateJoint(jointLeft);
-  jointRight = new b2RevoluteJointDef;
-  jointRight.Initialize(flipperRight, rightPin, rightPin.GetWorldCenter());
-  world.CreateJoint(jointRight);
+  jointLeft = createJoint(flipperLeft, leftPin);
+  jointRight = createJoint(flipperRight, rightPin);
+}
+
+function createJoint(body, pin) {
+  var joint = new b2RevoluteJointDef;
+  joint.Initialize(body, pin, pin.GetWorldCenter());
+  joint.upperAngle = .6;  
+  joint.lowerAngle = -.6;  
+  joint.enableLimit = true;  
+  joint.maxMotorTorque = 5.0;  
+  joint.motorSpeed = 0.0;  
+  joint.enableMotor = true;
+  world.CreateJoint(joint);
+  return joint;
 }
 
 function domBox(domObj, isStatic, fGI){
@@ -116,16 +122,16 @@ function domCircle(domObj, isStatic, fGI){
   return body.GetBody();
 }
 
-function createBox(x,y,width,height, static, fGI) {
+function createBox(x,y,width,height, static, fGI, rest) {
   var bodyDef = new b2BodyDef;
   bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE
   
   var fixDef = new b2FixtureDef;
-  fixDef.density = 1000;
+  fixDef.density = 1;
   fixDef.friction = 0.5;
-  fixDef.restitution = 0;
+  fixDef.restitution = typeof rest !== 'undefined' ? rest : 0.3;
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;
   fixDef.shape = new b2PolygonShape;
   fixDef.shape.SetAsBox(width / SCALE, height / SCALE);
@@ -140,7 +146,7 @@ function createCircle(x, y, r, static, fGI) {
   
   var fixDef = new b2FixtureDef;
   fixDef.density = 1;
-  fixDef.friction = 0.5;
+  fixDef.friction = 0.3;
   fixDef.restitution = 0.5;
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;
   fixDef.shape = new b2CircleShape(r / SCALE);
@@ -172,7 +178,7 @@ function drawDOMObjects() {
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   updateMouseDrag();
-  world.Step(1 / 30, 10, 10);
+  world.Step(1 / 30, 30, 30);
   if (debug) world.DrawDebugData();
   drawDOMObjects();
   world.ClearForces();

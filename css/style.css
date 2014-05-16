@@ -50,22 +50,21 @@ canvas {
   -webkit-border-radius: 25px 25px 25px 25px;
   border-radius: 25px 25px 25px 25px;
 }
-.static-circle-l {
+
+.static-circle {
   width:5px;
   height:5px;
-  top:625px;
-  left:50px;
+  top:613px;
   background: #000;
   -webkit-border-radius: 2.5px 2.5px 2.5px 2.5px;
 }
 
+.static-circle-l {
+  left:250px;
+}
+
 .static-circle-r {
-  width:5px;
-  height:5px;
-  top:625px;
-  left:750px;
-  background: #000;
-  -webkit-border-radius: 2.5px 2.5px 2.5px 2.5px;
+  left:545px;
 }
 
 .shape {
@@ -78,26 +77,16 @@ canvas {
 }
 
 .flipper {
+  top: 600px;
   background-color: #b66767;
-  width: 370px;
-  height: 50px;
-}
-
-.blocker {
-  width: 600px;
-  height: 400px;
-  top:0;
-  left:0;
-  right:0;
-  margin: auto;
+  width: 150px;
+  height: 30px;
 }
 
 .f-left {
-  top: 600px;
-  left: 5px;
+  left: 240px;
 }
 
 .f-right {
-  top: 600px;
-  left: 427px;
+  left: 410px;
 }
