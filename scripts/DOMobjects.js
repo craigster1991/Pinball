@@ -17,8 +17,7 @@ function createDOMObjects() {
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
   createRevJoint(flipperLeft, leftPin, true);
   createRevJoint(flipperRight, rightPin, false);
-  
-  addEvents();
+
 }
 
 function domBox(domObj, isStatic, fGI){

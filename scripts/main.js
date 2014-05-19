@@ -5,9 +5,9 @@ function init() {
 
   canvas = $("#canvas")[0];
   ctx = canvas.getContext("2d");
-  
   setUpWorld();
   createDOMObjects(); 
+  addEvents();
   update();
   interval = setInterval(update,1000/60);
 }
