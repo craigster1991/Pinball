@@ -73,17 +73,17 @@ function init() {
   window.addEventListener("keypress", function(e) {
     if([32].indexOf(e.keyCode) > -1) {
       e.preventDefault();
-      flipperLeft.ApplyTorque( -7500);  
-      flipperRight.ApplyTorque( 7500);  
+      flipperLeft.ApplyTorque( -100000);  
+      flipperRight.ApplyTorque( 100000);  
     }
   }, false);
 }
 
 function createDOMObjects() {
   box1 = domBox($('#upper-bottom-left-box'), true, -2);
-  box1.SetAngle(-60*D2R);
+  box1.SetAngle(-55*D2R);
   box2 = domBox($('#upper-bottom-right-box'), true, -2);
-  box2.SetAngle(60*D2R);
+  box2.SetAngle(55*D2R);
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
@@ -93,18 +93,18 @@ function createDOMObjects() {
   rightPin = domCircle($('.static-circle-r'), true, -2);
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
-  createRevJoint(flipperLeft, leftPin);
-  createRevJoint(flipperRight, rightPin);
+  createRevJoint(flipperLeft, leftPin, true);
+  createRevJoint(flipperRight, rightPin, false);
 }
 
-function createRevJoint(body, pin) {
+function createRevJoint(body, pin, reverse) {
   var joint = new b2RevoluteJointDef;
   joint.Initialize(body, pin, pin.GetWorldCenter());
-  joint.upperAngle = .6;
-  joint.lowerAngle = -.6;
+  joint.upperAngle = 35*D2R;
+  joint.lowerAngle = -35*D2R;
   joint.enableLimit = true;
-  joint.maxMotorTorque = 5.0;
-  joint.motorSpeed = 0.0;
+  joint.maxMotorTorque = 7000.0;
+  joint.motorSpeed = reverse ? -7000 : 7000;
   joint.enableMotor = true;
   world.CreateJoint(joint);
 }
@@ -145,7 +145,7 @@ function createBox(x,y,width,height, static, fGI, rest) {
   bodyDef.position.y = y / SCALE;
   
   var fixDef = new b2FixtureDef;
-  fixDef.density = 1;
+  fixDef.density = 10;
   fixDef.friction = 0.5;
   fixDef.restitution = typeof rest !== 'undefined' ? rest : 0.3;
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;

@@ -101,19 +101,19 @@ canvas {
 }
 
 #upper-bottom-right-box {
-  width: 5px;
-  height: 300px;
+  width: 15px;
+  height: 320px;
   background-color: #FF8888;
-/*   -webkit-transform:rotate(60deg); */
-  right: 120px;
+/*   -webkit-transform:rotate(55deg); */
+  right: 115px;
   bottom: 115px;
 }
 
 #upper-bottom-left-box {
-  width: 5px;
-  height: 300px;
+  width: 15px;
+  height: 320px;
   background-color: #FF8888;
-/*   -webkit-transform:rotate(-60deg); */
-  left: 120px;
+/*   -webkit-transform:rotate(-55deg); */
+  left: 115px;
   bottom: 115px;
 }
