@@ -8,10 +8,14 @@ var canvas;
 var debug = false;
 var ctx;
 var blueBall;
+var leftInnerPin;
+var rightInnerPin;
 var leftPin;
 var rightPin;
 var flipperLeft;
 var flipperRight;
+var box1;
+var box2;
 
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -28,7 +32,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
     b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef,
     b2EdgeShape = Box2D.Collision.Shapes.b2EdgeShape,
     b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint,
-    b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
+    b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef,
+    b2WeldJointDef = Box2D.Dynamics.Joints.b2WeldJointDef;
     
 $(document).ready(init);
 
@@ -58,8 +63,8 @@ function init() {
   var h = $('#container').height();
   
   createBox(0, h , w, 2, true, null, 0);
-  createBox(0, 0, 2, h, true, -2);
-  createBox(w, 0, 2, h, true, -2);
+  createBox(0, 0, 2, h, true);
+  createBox(w, 0, 2, h, true);
   createBox(0, 0, w, 2, true);
   
   interval = setInterval(update,1000/60);
@@ -75,18 +80,24 @@ function init() {
 }
 
 function createDOMObjects() {
-  domBox($('#upper-bottom-left-box'), true, -2);
-  domBox($('#upper-bottom-right-box'), true, -2);
+  box1 = domBox($('#upper-bottom-left-box'), true, -2);
+  box1.SetAngle(-60*D2R);
+  box2 = domBox($('#upper-bottom-right-box'), true, -2);
+  box2.SetAngle(60*D2R);
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
-  leftPin = domCircle($('.static-circle-l'), true);
-  rightPin = domCircle($('.static-circle-r'), true);
-  createJoint(flipperLeft, leftPin);
-  createJoint(flipperRight, rightPin);
+  leftInnerPin = domCircle($('.static-circle-il'), false, -2);
+  rightInnerPin = domCircle($('.static-circle-ir'), false, -2);
+  leftPin = domCircle($('.static-circle-l'), true, -2);
+  rightPin = domCircle($('.static-circle-r'), true, -2);
+  createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
+  createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
+  createRevJoint(flipperLeft, leftPin);
+  createRevJoint(flipperRight, rightPin);
 }
 
-function createJoint(body, pin) {
+function createRevJoint(body, pin) {
   var joint = new b2RevoluteJointDef;
   joint.Initialize(body, pin, pin.GetWorldCenter());
   joint.upperAngle = .6;
@@ -95,6 +106,12 @@ function createJoint(body, pin) {
   joint.maxMotorTorque = 5.0;
   joint.motorSpeed = 0.0;
   joint.enableMotor = true;
+  world.CreateJoint(joint);
+}
+
+function createWeldJoint(body1, body2, vec2Pos) {
+  var joint = new b2WeldJointDef();
+  joint.Initialize(body1, body2, vec2Pos);
   world.CreateJoint(joint);
 }
 
@@ -144,7 +161,7 @@ function createCircle(x, y, r, static, fGI) {
   bodyDef.position.y = y / SCALE;
   
   var fixDef = new b2FixtureDef;
-  fixDef.density = 1;
+  fixDef.density = 0.1;
   fixDef.friction = 0.3;
   fixDef.restitution = 0.5;
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;

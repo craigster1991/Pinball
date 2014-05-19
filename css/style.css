@@ -53,19 +53,27 @@ canvas {
 }
 
 .static-circle {
-  width:5px;
-  height:5px;
-  top:613px;
-  background: #000;
-  -webkit-border-radius: 2.5px 2.5px 2.5px 2.5px;
+  width: 30px;
+  height: 30px;
+  top: 600px;
+  background: #b66767;
+  -webkit-border-radius: 15px;
 }
 
 .static-circle-l {
-  left:250px;
+  left:225px;
 }
 
 .static-circle-r {
   left:545px;
+}
+
+.static-circle-il {
+  left:360px;
+}
+
+.static-circle-ir {
+  left:410px;
 }
 
 .shape {
@@ -80,7 +88,7 @@ canvas {
 .flipper {
   top: 600px;
   background-color: #b66767;
-  width: 150px;
+  width: 135px;
   height: 30px;
 }
 
@@ -89,7 +97,7 @@ canvas {
 }
 
 .f-right {
-  left: 410px;
+  left: 425px;
 }
 
 #upper-bottom-right-box {
@@ -98,7 +106,7 @@ canvas {
   background-color: #FF8888;
 /*   -webkit-transform:rotate(60deg); */
   right: 120px;
-  bottom: 125px;
+  bottom: 115px;
 }
 
 #upper-bottom-left-box {
@@ -107,5 +115,5 @@ canvas {
   background-color: #FF8888;
 /*   -webkit-transform:rotate(-60deg); */
   left: 120px;
-  bottom: 125px;
+  bottom: 115px;
 }
