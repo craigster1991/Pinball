@@ -12,8 +12,6 @@ var leftPin;
 var rightPin;
 var flipperLeft;
 var flipperRight;
-var jointLeft;
-var jointRight;
 
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -77,26 +75,27 @@ function init() {
 }
 
 function createDOMObjects() {
+  domBox($('#upper-bottom-left-box'), true, -2);
+  domBox($('#upper-bottom-right-box'), true, -2);
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
   leftPin = domCircle($('.static-circle-l'), true);
   rightPin = domCircle($('.static-circle-r'), true);
-  jointLeft = createJoint(flipperLeft, leftPin);
-  jointRight = createJoint(flipperRight, rightPin);
+  createJoint(flipperLeft, leftPin);
+  createJoint(flipperRight, rightPin);
 }
 
 function createJoint(body, pin) {
   var joint = new b2RevoluteJointDef;
   joint.Initialize(body, pin, pin.GetWorldCenter());
-  joint.upperAngle = .6;  
-  joint.lowerAngle = -.6;  
-  joint.enableLimit = true;  
-  joint.maxMotorTorque = 5.0;  
-  joint.motorSpeed = 0.0;  
+  joint.upperAngle = .6;
+  joint.lowerAngle = -.6;
+  joint.enableLimit = true;
+  joint.maxMotorTorque = 5.0;
+  joint.motorSpeed = 0.0;
   joint.enableMotor = true;
   world.CreateJoint(joint);
-  return joint;
 }
 
 function domBox(domObj, isStatic, fGI){
@@ -126,7 +125,7 @@ function createBox(x,y,width,height, static, fGI, rest) {
   var bodyDef = new b2BodyDef;
   bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
-  bodyDef.position.y = y / SCALE
+  bodyDef.position.y = y / SCALE;
   
   var fixDef = new b2FixtureDef;
   fixDef.density = 1;
@@ -142,7 +141,7 @@ function createCircle(x, y, r, static, fGI) {
   var bodyDef = new b2BodyDef;
   bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
-  bodyDef.position.y = y / SCALE
+  bodyDef.position.y = y / SCALE;
   
   var fixDef = new b2FixtureDef;
   fixDef.density = 1;
@@ -184,11 +183,6 @@ function update() {
   world.ClearForces();
   fps.update();
   fps.draw();
-  /*
-$('html, body').animate({
-      scrollTop: $(".circle").offset().top
-  }, 0);
-*/
 }
 
 //Keep the canvas size correct for debug drawing
