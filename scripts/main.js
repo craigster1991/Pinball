@@ -7,7 +7,6 @@ function init() {
   ctx = canvas.getContext("2d");
   
   setUpWorld();
-  addEvents();
   createDOMObjects(); 
   update();
   interval = setInterval(update,1000/60);

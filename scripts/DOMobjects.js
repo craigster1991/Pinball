@@ -3,6 +3,7 @@ function createDOMObjects() {
   box1.SetAngle(-55*D2R);
   box2 = domBox($('#upper-bottom-right-box'), true, -2);
   box2.SetAngle(55*D2R);
+  
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
@@ -10,10 +11,14 @@ function createDOMObjects() {
   rightInnerPin = domCircle($('.static-circle-ir'), false, -2);
   leftPin = domCircle($('.static-circle-l'), true, -2);
   rightPin = domCircle($('.static-circle-r'), true, -2);
+  floor = domBox($('#floor'), true);
+  
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
   createRevJoint(flipperLeft, leftPin, true);
   createRevJoint(flipperRight, rightPin, false);
+  
+  addEvents();
 }
 
 function domBox(domObj, isStatic, fGI){
