@@ -12,7 +12,7 @@ function createDOMObjects() {
   leftPin = domCircle($('.static-circle-l'), true, -2);
   rightPin = domCircle($('.static-circle-r'), true, -2);
   floor = domBox($('#floor'), true);
-  newShape = domPolygon($(''), , , )
+/*   newShape = domPolygon($(''), , , ); */
   
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());

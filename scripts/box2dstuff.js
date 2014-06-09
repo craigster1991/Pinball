@@ -42,7 +42,7 @@ function createCircle(x, y, r, static, fGI, rest) {
   var fixDef = new b2FixtureDef;
   fixDef.density = 0.1;
   fixDef.friction = 0.3;
-  fixDef.restitution = = typeof rest !== 'undefined' ? rest : 0.5;
+  fixDef.restitution = typeof rest !== 'undefined' ? rest : 0.5;
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;
   fixDef.shape = new b2CircleShape(r / SCALE);
   return world.CreateBody(bodyDef).CreateFixture(fixDef);

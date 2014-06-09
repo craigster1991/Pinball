@@ -10,7 +10,7 @@ function FlipIt(e) {
       keyPressed = true;
       flipperLeft.ApplyTorque( -100000);  
       flipperRight.ApplyTorque( 100000);
-      setTimeout(function(){keyPressed = false;}, 150);
+      setTimeout(function(){keyPressed = false;}, 250);
     }
   }
 }
