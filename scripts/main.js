@@ -16,6 +16,7 @@ function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   world.Step(1 / 30, 30, 30);
   drawDOMObjects();
+  updateMouseDrag();
   world.ClearForces();
   fps.update();
   fps.draw();
