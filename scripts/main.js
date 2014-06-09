@@ -4,22 +4,26 @@ $(document).ready(init);
 function init() {
 
   canvas = $("#canvas")[0];
+  
   ctx = canvas.getContext("2d");
   setUpWorld();
   createDOMObjects(); 
   addEvents();
   update();
   interval = setInterval(update,1000/60);
+  resizeHandler();
+	$(window).bind('resize', resizeHandler);
 }
 
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  world.DrawDebugData();
   world.Step(1 / 30, 60, 60);
-  drawDOMObjects();
+/*   drawDOMObjects(); */
   updateMouseDrag();
   world.ClearForces();
-  fps.update();
-  fps.draw();
+/*   fps.update(); */
+/*   fps.draw(); */
 }
 
 function drawDOMObjects() {
@@ -36,3 +40,8 @@ function drawDOMObjects() {
     }
   }
 }
+
+function resizeHandler() {
+			canvas.attr('width', $(window).width()/1.615);
+			canvas.attr('height', $(window).height()/1.13);
+		}
