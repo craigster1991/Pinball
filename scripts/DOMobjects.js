@@ -12,7 +12,7 @@ function createDOMObjects() {
   leftPin = domCircle($('.static-circle-l'), true, -2);
   rightPin = domCircle($('.static-circle-r'), true, -2);
   floor = domBox($('#floor'), true);
-/*   newShape = domPolygon($(''), , , ); */
+  polygon = domPolygon($('#polygon'), [new b2Vec2(50/SCALE, -50/SCALE), new b2Vec2(50/SCALE, 50/SCALE), new b2Vec2(-50/SCALE, 50/SCALE)], false);
   
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
@@ -44,13 +44,14 @@ function domCircle(domObj, isStatic, fGI){
   return body.GetBody();
 }
 
-function domPolygon(domObj, isStatic, fGI, points){
+function domPolygon(domObj, points, isStatic, fGI){
+  console.log(isStatic)
   var domPos = domObj.position();
   var width = domObj.width() / 2;
   var height = domObj.height() / 2;
   var x = (domPos.left) + width;
   var y = (domPos.top) + height;
-  var body = createPolygon(points, x, y, width, height, isStatic, fGI);
+  var body = createPolygon(points, x, y, isStatic, fGI);
   body.m_userData = {domObj:domObj, width:width, height:height};
   domObj.css({'left':'0px', 'top':'0px'});
   return body.GetBody();

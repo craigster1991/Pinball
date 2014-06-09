@@ -49,6 +49,7 @@ function createCircle(x, y, r, static, fGI, rest) {
 }
 
 function createPolygon(pointsArr, x, y, static, fGI, rest){
+  console.log(static);
   var bodyDef = new b2BodyDef;
   bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
@@ -61,5 +62,6 @@ function createPolygon(pointsArr, x, y, static, fGI, rest){
   fixDef.filter.groupIndex = typeof fGI !== 'undefined' ? fGI : 1;
   fixDef.shape = new b2PolygonShape;
   fixDef.shape.SetAsArray(pointsArr);
+/*   console.log(fixDef); */
   return world.CreateBody(bodyDef).CreateFixture(fixDef);
 }

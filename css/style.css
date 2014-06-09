@@ -130,4 +130,6 @@ canvas {
   left: 200px;
   width: 100px;
   height:100px;
+  background: url('../images/triangle.png') no-repeat;
+  background-size: cover;
 }
