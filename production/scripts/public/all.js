@@ -53,7 +53,6 @@ function domCircle(domObj, isStatic, fGI){
 }
 
 function domPolygon(domObj, points, isStatic, fGI){
-  console.log(isStatic);
   var domPos = domObj.position();
   var width = domObj.width() / 2;
   var height = domObj.height() / 2;
@@ -70,8 +69,8 @@ function createRevJoint(body, pin, reverse) {
   joint.upperAngle = 35*D2R;
   joint.lowerAngle = -35*D2R;
   joint.enableLimit = true;
-  joint.maxMotorTorque = 7000.0;
-  joint.motorSpeed = reverse ? -7000 : 7000;
+  joint.maxMotorTorque = 5000.0;
+  joint.motorSpeed = reverse ? -1000 : 1000;
   joint.enableMotor = true;
   world.CreateJoint(joint);
 }
@@ -140,9 +139,9 @@ function FlipIt(e) {
     e.preventDefault();
     if (!keyPressed) {
       keyPressed = true;
-      flipperLeft.ApplyTorque( -100000);  
-      flipperRight.ApplyTorque( 100000);
-      setTimeout(function(){keyPressed = false;}, 250);
+      flipperLeft.ApplyTorque(-100000);
+      flipperRight.ApplyTorque(100000);
+      setTimeout(function(){keyPressed = false;}, 300);
     }
   }
 }
@@ -220,18 +219,17 @@ function init() {
   update();
   interval = setInterval(update,1000/60);
   resizeHandler();
-	$(window).bind('resize', resizeHandler);
 }
 
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-/*   world.DrawDebugData(); */
+  // world.DrawDebugData(); 
   world.Step(1 / 30, 60, 60);
   drawDOMObjects();
   updateMouseDrag();
   world.ClearForces();
-/*   fps.update(); */
-/*   fps.draw(); */
+  // fps.update(); 
+  // fps.draw(); 
 }
 
 function drawDOMObjects() {
@@ -241,8 +239,9 @@ function drawDOMObjects() {
       if (f.m_userData) {
         var x = Math.floor((f.m_body.m_xf.position.x * SCALE) - f.m_userData.width);
         var y = Math.floor((f.m_body.m_xf.position.y * SCALE) - f.m_userData.height);
+        var z = 1;
         var r = Math.round(((f.m_body.m_sweep.a + PI2) % PI2) * R2D * 100) / 100;
-        var css = {'-webkit-transform':'translate(' + x + 'px,' + y + 'px) rotate(' + r  + 'deg)', '-moz-transform':'translate(' + x + 'px,' + y + 'px) rotate(' + r  + 'deg)', '-ms-transform':'translate(' + x + 'px,' + y + 'px) rotate(' + r  + 'deg)'  , '-o-transform':'translate(' + x + 'px,' + y + 'px) rotate(' + r  + 'deg)', 'transform':'translate(' + x + 'px,' + y + 'px) rotate(' + r  + 'deg)'};
+        var css = {'-webkit-transform':'translate3d(' + x + 'px,' + y + 'px,'+ z + 'px) rotate(' + r  + 'deg)', '-moz-transform':'translate3d(' + x + 'px,' + y + 'px,'+ z + 'px) rotate(' + r  + 'deg)', '-ms-transform':'translate3d(' + x + 'px,' + y + 'px,'+ z + 'px) rotate(' + r  + 'deg)'  , '-o-transform':'translate3d(' + x + 'px,' + y + 'px,'+ z + 'px) rotate(' + r  + 'deg)', 'transform':'translate3d(' + x + 'px,' + y + 'px,'+ z + 'px) rotate(' + r  + 'deg)'};
         f.m_userData.domObj.css(css);
       }
     }
@@ -250,9 +249,10 @@ function drawDOMObjects() {
 }
 
 function resizeHandler() {
-			canvas.attr('width', $(window).width()/1.615);
-			canvas.attr('height', $(window).height()/1.13);
-		}
+	canvas.attr('width', $('#container').width());
+	canvas.attr('height', $('#container').height());
+  $(window).bind('resize', resizeHandler);
+}
 function setUpWorld() {
 
   world = new b2World(new b2Vec2(0, 10), true);
