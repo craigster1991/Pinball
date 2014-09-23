@@ -83,9 +83,9 @@ function createWeldJoint(body1, body2, vec2Pos) {
 }
 
 
-function createBox(x,y,width,height, static, fGI, rest) {
+function createBox(x,y,width,height, isStatic, fGI, rest) {
   var bodyDef = new b2BodyDef();
-  bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
+  bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
   
@@ -99,9 +99,9 @@ function createBox(x,y,width,height, static, fGI, rest) {
   return world.CreateBody(bodyDef).CreateFixture(fixDef);
 }
 
-function createCircle(x, y, r, static, fGI, rest) {
+function createCircle(x, y, r, isStatic, fGI, rest) {
   var bodyDef = new b2BodyDef();
-  bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
+  bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
   
@@ -114,10 +114,9 @@ function createCircle(x, y, r, static, fGI, rest) {
   return world.CreateBody(bodyDef).CreateFixture(fixDef);
 }
 
-function createPolygon(pointsArr, x, y, static, fGI, rest){
-  console.log(static);
+function createPolygon(pointsArr, x, y, isStatic, fGI, rest){
   var bodyDef = new b2BodyDef();
-  bodyDef.type = static ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
+  bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
   

@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     coffee = require('gulp-coffee'),
+    gutil = require('gulp-util'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
@@ -12,15 +13,30 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     cache = require('gulp-cache');
     
+    
+gulp.task('coffee', function() {
+  gulp.src('development/scripts/coffee/*.coffee')
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest('development/scripts/coffee_compiled'))
+    .pipe(notify({ message: 'coffee task complete' }));
+});
+
+gulp.task('lint_coffee', function() {
+    return gulp.src('development/scripts/coffee_compiled/*.js')
+      .pipe(jshint())
+      .pipe(jshint.reporter('default'))
+      .pipe(notify({ message: 'Lint_coffee task complete' }));
+});
+
 gulp.task('lint', function() {
-    return gulp.src('development/scripts/*.js')
+    return gulp.src('development/scripts/js/*.js')
       .pipe(jshint())
       .pipe(jshint.reporter('default'))
       .pipe(notify({ message: 'Lint task complete' }));
 });
 
 gulp.task('scripts', function() {
-    return gulp.src('development/scripts/*.js')
+    return gulp.src('development/scripts/js/*.js')
       .pipe(concat('all.js'))
       .pipe(gulp.dest('production/scripts/public'))
       .pipe(rename('all.min.js'))
@@ -50,7 +66,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('lint', 'scripts', 'images', 'css', 'watch');
+    gulp.start('coffee', 'lint_coffee', 'lint', 'scripts', 'images', 'css', 'watch');
 });
 
 gulp.task('watch', function() {

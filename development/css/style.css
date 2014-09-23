@@ -123,6 +123,7 @@ canvas {
   height:5px;
   bottom:0;
   background-color: #ba6722;
+  position: absolute;
 }
 
 #polygon {
