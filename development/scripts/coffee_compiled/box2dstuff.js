@@ -1,4 +1,17 @@
-var createBox;
+var createBox, createRevJoint;
+
+createRevJoint = function() {
+  var joint;
+  joint = new b2RevoluteJointDef();
+  joint.Initialize(body, pin, pin.GetWorldCenter());
+  joint.upperAngle = 35 * D2R;
+  joint.lowerAngle = -35 * D2R;
+  joint.enableLimit = true;
+  joint.maxMotorTorque = 5000.0;
+  joint.motorSpeed = (reverse ? -1000 : 1000);
+  joint.enableMotor = true;
+  return world.CreateJoint(joint);
+};
 
 createBox = function(x, y, width, height, isStatic, fGI, rest) {
   var bodyDef, fixDef;

@@ -26,7 +26,6 @@ function update() {
 }
 
 function drawDOMObjects() {
-  var i = 0;
   for (var b = world.m_bodyList; b; b = b.m_next) {
     for (var f = b.m_fixtureList; f; f = f.m_next) {
       if (f.m_userData) {

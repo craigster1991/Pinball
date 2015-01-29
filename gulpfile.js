@@ -72,7 +72,8 @@ gulp.task('default', ['clean'], function() {
 gulp.task('watch', function() {
 
   // Watch .js files
-  gulp.watch('development/scripts/*.js', ['lint', 'scripts']);
+  gulp.watch('development/scripts/js/*.js', ['lint', 'scripts']);
+  gulp.watch('development/scripts/coffee/*.js', ['coffee']);
 
   // Watch image files
   gulp.watch('development/images/**/*', ['images']);

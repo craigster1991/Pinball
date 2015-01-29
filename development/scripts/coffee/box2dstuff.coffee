@@ -1,3 +1,14 @@
+createRevJoint = () ->
+  joint = new b2RevoluteJointDef()
+  joint.Initialize body, pin, pin.GetWorldCenter()
+  joint.upperAngle = 35*D2R
+  joint.lowerAngle = -35*D2R
+  joint.enableLimit = true
+  joint.maxMotorTorque = 5000.0
+  joint.motorSpeed = (if reverse then -1000 else 1000)
+  joint.enableMotor = true
+  world.CreateJoint joint
+
 createBox = (x, y, width, height, isStatic, fGI, rest) ->
   bodyDef = new b2BodyDef()
   bodyDef.type = (if isStatic then b2Body.b2_staticBody else b2Body.b2_dynamicBody)
