@@ -3,7 +3,7 @@ function createDOMObjects() {
   box1.SetAngle(-55*D2R);
   box2 = domBox($('#upper-bottom-right-box'), true, -2);
   box2.SetAngle(55*D2R);
-  
+
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
@@ -21,7 +21,7 @@ function createDOMObjects() {
     new b2Vec2(-20/SCALE, 20/SCALE),
     new b2Vec2(-20/SCALE, -20/SCALE)
   ], false, 1);
-  
+
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
   createRevJoint(flipperLeft, leftPin, true);
@@ -87,7 +87,7 @@ function createBox(x,y,width,height, isStatic, fGI, rest) {
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 10;
   fixDef.friction = 0.5;
@@ -103,7 +103,7 @@ function createCircle(x, y, r, isStatic, fGI, rest) {
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 0.1;
   fixDef.friction = 0.3;
@@ -118,7 +118,7 @@ function createPolygon(pointsArr, x, y, isStatic, fGI, rest){
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 10;
   fixDef.friction = 0.5;
@@ -131,11 +131,15 @@ function createPolygon(pointsArr, x, y, isStatic, fGI, rest){
 }
 function addEvents(){
   window.addEventListener("keypress", FlipIt, false);
+  window.addEventListener("mousedown", FlipItTap, false);
+  window.addEventListener("touchstart", FlipItTap, false);
   box2d_ballContact();
 }
 
 function FlipIt(e) {
+  console.log('keypress');
   if([32].indexOf(e.keyCode) > -1) {
+    console.log('keypress - SPACE');
     e.preventDefault();
     if (!keyPressed) {
       keyPressed = true;
@@ -146,20 +150,34 @@ function FlipIt(e) {
   }
 }
 
+function FlipItTap(e) {
+  console.log('TAP');
+  if (!keyPressed) {
+    keyPressed = true;
+    flipperLeft.ApplyTorque(-100000);
+    flipperRight.ApplyTorque(100000);
+    setTimeout(function(){keyPressed = false;}, 300);
+  }
+}
+
 function box2d_ballContact() {
   var listener = new b2ContactListener();
-  
+
   listener.EndContact = function(contact) {
     if (contact.GetFixtureA().GetUserData() !== null && contact.GetFixtureB().GetUserData() !== null){
-      if ((contact.GetFixtureA().GetUserData().domObj.selector == '#floor' && 
-            contact.GetFixtureB().GetUserData().domObj.selector == '.circle') || 
-          (contact.GetFixtureB().GetUserData().domObj.selector == '#floor' && 
+      if ((contact.GetFixtureA().GetUserData().domObj.selector == '#floor' &&
+            contact.GetFixtureB().GetUserData().domObj.selector == '.circle') ||
+          (contact.GetFixtureB().GetUserData().domObj.selector == '#floor' &&
             contact.GetFixtureA().GetUserData().domObj.selector == '.circle')) {
-        setTimeout(function(){blueBall.SetPosition(new b2Vec2(100/SCALE, 100/SCALE));}, 0);
+        setTimeout(function(){
+          blueBall.SetLinearVelocity(new b2Vec2(0,0));
+          blueBall.SetAngularVelocity(0);
+          blueBall.SetPosition(new b2Vec2(100/SCALE, 100/SCALE));
+        }, 0);
       }
     }
   };
-  
+
   this.world.SetContactListener(listener);
 }
 
@@ -211,10 +229,10 @@ $(document).ready(init);
 function init() {
 
   canvas = $("#canvas")[0];
-  
+
   ctx = canvas.getContext("2d");
   setUpWorld();
-  createDOMObjects(); 
+  createDOMObjects();
   addEvents();
   update();
   interval = setInterval(update,1000/60);
@@ -222,14 +240,15 @@ function init() {
 }
 
 function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // world.DrawDebugData(); 
-  world.Step(1 / 30, 60, 60);
+  // world.DrawDebugData();
+  world.Step(1 / 30, 40, 40);
   drawDOMObjects();
-  updateMouseDrag();
+  // updateMouseDrag();
   world.ClearForces();
-  // fps.update(); 
-  // fps.draw(); 
+
+  // ctx.clearRect(0, 0, canvas.width(), canvas.height());
+  fps.update();
+  // fps.draw();
 }
 
 function drawDOMObjects() {

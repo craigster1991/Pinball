@@ -14,6 +14,7 @@ var fps = {
     fps.current ++;
     if (Date.now() - fps.lastUpdated >= 1000) {
       fps.last = fps.current;
+      // console.log(fps.current);
       fps.current = 0;
       fps.lastUpdated = Date.now();
     }

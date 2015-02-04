@@ -3,7 +3,7 @@ function createDOMObjects() {
   box1.SetAngle(-55*D2R);
   box2 = domBox($('#upper-bottom-right-box'), true, -2);
   box2.SetAngle(55*D2R);
-  
+
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
   blueBall = domCircle($('.circle'), false, -1);
@@ -21,7 +21,7 @@ function createDOMObjects() {
     new b2Vec2(-20/SCALE, 20/SCALE),
     new b2Vec2(-20/SCALE, -20/SCALE)
   ], false, 1);
-  
+
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
   createRevJoint(flipperLeft, leftPin, true);

@@ -22,7 +22,7 @@ function createBox(x,y,width,height, isStatic, fGI, rest) {
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 10;
   fixDef.friction = 0.5;
@@ -38,7 +38,7 @@ function createCircle(x, y, r, isStatic, fGI, rest) {
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 0.1;
   fixDef.friction = 0.3;
@@ -53,7 +53,7 @@ function createPolygon(pointsArr, x, y, isStatic, fGI, rest){
   bodyDef.type = isStatic ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
   bodyDef.position.x = x / SCALE;
   bodyDef.position.y = y / SCALE;
-  
+
   var fixDef = new b2FixtureDef();
   fixDef.density = 10;
   fixDef.friction = 0.5;

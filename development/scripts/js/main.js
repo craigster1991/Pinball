@@ -4,10 +4,10 @@ $(document).ready(init);
 function init() {
 
   canvas = $("#canvas")[0];
-  
+
   ctx = canvas.getContext("2d");
   setUpWorld();
-  createDOMObjects(); 
+  createDOMObjects();
   addEvents();
   update();
   interval = setInterval(update,1000/60);
@@ -15,14 +15,15 @@ function init() {
 }
 
 function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // world.DrawDebugData(); 
-  world.Step(1 / 30, 60, 60);
+  // world.DrawDebugData();
+  world.Step(1 / 30, 40, 40);
   drawDOMObjects();
-  updateMouseDrag();
+  // updateMouseDrag();
   world.ClearForces();
-  // fps.update(); 
-  // fps.draw(); 
+
+  // ctx.clearRect(0, 0, canvas.width(), canvas.height());
+  fps.update();
+  // fps.draw();
 }
 
 function drawDOMObjects() {
