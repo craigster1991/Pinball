@@ -6,71 +6,73 @@ function createDOMObjects() {
 
   flipperLeft = domBox($('.f-left'), false, -2);
   flipperRight = domBox($('.f-right'), false, -2);
-  blueBall = domCircle($('.circle'), false, -1);
+  blueBall = domCircle($('.circle'), false, -1, 0.5);
   leftInnerPin = domCircle($('.static-circle-il'), false, -2);
   rightInnerPin = domCircle($('.static-circle-ir'), false, -2);
   leftPin = domCircle($('.static-circle-l'), true, -2);
   rightPin = domCircle($('.static-circle-r'), true, -2);
+  middlePin = domCircle($('.centrepin'), true, -2);
   floor = domBox($('#floor'), true);
   polygon = domPolygon($('#polygon'), [
-    new b2Vec2(0/SCALE, -100/SCALE),
-    new b2Vec2(20/SCALE, -20/SCALE),
-    new b2Vec2(20/SCALE, 0/SCALE),
-    new b2Vec2(20/SCALE, 20/SCALE),
-    new b2Vec2(0/SCALE, 100/SCALE),
-    new b2Vec2(-20/SCALE, 20/SCALE),
-    new b2Vec2(-20/SCALE, -20/SCALE)
-  ], false, 1);
+    new b2Vec2(0/SCALE, -150/SCALE),
+    new b2Vec2(10/SCALE, -30/SCALE),
+    // new b2Vec2(10/SCALE, 0/SCALE),
+    new b2Vec2(10/SCALE, 30/SCALE),
+    new b2Vec2(0/SCALE, 150/SCALE),
+    new b2Vec2(-10/SCALE, 30/SCALE),
+    new b2Vec2(-10/SCALE, -30/SCALE)
+  ], false, 1, 0.3);
 
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
-  createRevJoint(flipperLeft, leftPin, true);
-  createRevJoint(flipperRight, rightPin, false);
+  createRevJoint(polygon, middlePin, true, 0.5, false);
+  createRevJoint(flipperLeft, leftPin, true, 1000, true);
+  createRevJoint(flipperRight, rightPin, false, 1000, true);
 
 }
 
-function domBox(domObj, isStatic, fGI){
+function domBox(domObj, isStatic, fGI, rest){
   var domPos = domObj.position();
   var width = domObj.width() / 2;
   var height = domObj.height() / 2;
   var x = (domPos.left) + width;
   var y = (domPos.top) + height;
-  var body = createBox(x, y, width, height, isStatic, fGI);
+  var body = createBox(x, y, width, height, isStatic, fGI, rest);
   body.m_userData = {domObj:domObj, width:width, height:height};
   domObj.css({'left':'0px', 'top':'0px'});
   return body.GetBody();
 }
 
-function domCircle(domObj, isStatic, fGI){
+function domCircle(domObj, isStatic, fGI, rest){
   var domPos = domObj.position();
   var radius = domObj.width() / 2 ;
   var x = (domPos.left) + radius;
   var y = (domPos.top) + radius;
-  var body = createCircle(x, y, radius, isStatic, fGI);
+  var body = createCircle(x, y, radius, isStatic, fGI, rest);
   body.m_userData = {domObj:domObj, width:radius, height:radius};
   domObj.css({'left':'0px', 'top':'0px'});
   return body.GetBody();
 }
 
-function domPolygon(domObj, points, isStatic, fGI){
+function domPolygon(domObj, points, isStatic, fGI, rest){
   var domPos = domObj.position();
   var width = domObj.width() / 2;
   var height = domObj.height() / 2;
   var x = (domPos.left) + width;
   var y = (domPos.top) + height;
-  var body = createPolygon(points, x, y, isStatic, fGI);
+  var body = createPolygon(points, x, y, isStatic, fGI, rest);
   body.m_userData = {domObj:domObj, width:width, height:height};
   domObj.css({'left':'0px', 'top':'0px'});
   return body.GetBody();
 }
-function createRevJoint(body, pin, reverse) {
+function createRevJoint(body, pin, reverse, power, limit) {
   var joint = new b2RevoluteJointDef();
   joint.Initialize(body, pin, pin.GetWorldCenter());
   joint.upperAngle = 35*D2R;
   joint.lowerAngle = -35*D2R;
-  joint.enableLimit = true;
+  joint.enableLimit = limit;
   joint.maxMotorTorque = 5000.0;
-  joint.motorSpeed = reverse ? -1000 : 1000;
+  joint.motorSpeed = reverse ? -power : power;
   joint.enableMotor = true;
   world.CreateJoint(joint);
 }
@@ -182,29 +184,29 @@ function box2d_ballContact() {
 }
 
 
-var world;
+var world,
+    interval,
+    canvas,
+    ctx,
+    blueBall,
+    leftInnerPin,
+    rightInnerPin,
+    leftPin,
+    middlePin,
+    rightPin,
+    flipperLeft,
+    flipperRight,
+    box1,
+    box2,
+    listener,
+    floor,
+    polygon;
+var debug = false;
+var keyPressed = false;
 var SCALE = 30;
 var D2R = Math.PI / 180;
 var R2D = 180 / Math.PI;
 var PI2 = Math.PI * 2;
-var interval;
-var canvas;
-var debug = false;
-var ctx;
-var blueBall;
-var leftInnerPin;
-var rightInnerPin;
-var leftPin;
-var rightPin;
-var flipperLeft;
-var flipperRight;
-var box1;
-var box2;
-var keyPressed = false;
-var listener;
-var floor;
-var polygon;
-
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2,
     b2BodyDef = Box2D.Dynamics.b2BodyDef,
@@ -241,13 +243,13 @@ function init() {
 
 function update() {
   // world.DrawDebugData();
-  world.Step(1 / 30, 40, 40);
+  world.Step(1 / 30, 30, 30);
   drawDOMObjects();
-  // updateMouseDrag();
+  updateMouseDrag();
   world.ClearForces();
 
   // ctx.clearRect(0, 0, canvas.width(), canvas.height());
-  fps.update();
+  fps.update(true);
   // fps.draw();
 }
 
@@ -278,13 +280,13 @@ function setUpWorld() {
   canvas = $("#canvas");
   debugDraw.SetSprite(canvas[0].getContext("2d"));
   debugDraw.SetDrawScale(SCALE);
-  debugDraw.SetFillAlpha(0.3);
+  debugDraw.SetFillAlpha(0.5);
   debugDraw.SetLineThickness(1.0);
   debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
   world.SetDebugDraw(debugDraw);
-  var w = $('#container').width(); 
+  var w = $('#container').width();
   var h = $('#container').height();
-  
+
   createBox(0, h , w, 2, true, null, 0);
   createBox(0, 0, 2, h, true);
   createBox(w, 0, 2, h, true);

@@ -16,13 +16,13 @@ function init() {
 
 function update() {
   // world.DrawDebugData();
-  world.Step(1 / 30, 40, 40);
+  world.Step(1 / 30, 30, 30);
   drawDOMObjects();
-  // updateMouseDrag();
+  updateMouseDrag();
   world.ClearForces();
 
   // ctx.clearRect(0, 0, canvas.width(), canvas.height());
-  fps.update();
+  fps.update(true);
   // fps.draw();
 }
 

@@ -10,11 +10,11 @@ var fps = {
     ctx.textBaseline = 'top';
     ctx.fillText(fps.last + 'fps', 5, 3);
   },
-  update: function() {
+  update: function(log) {
     fps.current ++;
     if (Date.now() - fps.lastUpdated >= 1000) {
       fps.last = fps.current;
-      // console.log(fps.current);
+      if(log) console.log(fps.current);
       fps.current = 0;
       fps.lastUpdated = Date.now();
     }

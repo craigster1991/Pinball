@@ -85,6 +85,15 @@ canvas {
   transform: translate3d(0,0,1px);
 }
 
+.centrepin {
+  left: 397px;
+  top: 207px;
+  width: 5px;
+  height: 5px;
+  background-color: #3300EE;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
 .flipper {
   top: 600px;
   background-color: #b66767;
@@ -127,10 +136,10 @@ canvas {
 }
 
 #polygon {
-  top: 200px;
-  left: 200px;
-  width: 40px;
-  height: 200px;
+  top: 50px;
+  left: 390px;
+  width: 20px;
+  height: 300px;
   background: url('../images/polygon.png') no-repeat;
   background-size: cover;
 }

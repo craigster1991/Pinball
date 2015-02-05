@@ -1,11 +1,11 @@
-function createRevJoint(body, pin, reverse) {
+function createRevJoint(body, pin, reverse, power, limit) {
   var joint = new b2RevoluteJointDef();
   joint.Initialize(body, pin, pin.GetWorldCenter());
   joint.upperAngle = 35*D2R;
   joint.lowerAngle = -35*D2R;
-  joint.enableLimit = true;
+  joint.enableLimit = limit;
   joint.maxMotorTorque = 5000.0;
-  joint.motorSpeed = reverse ? -1000 : 1000;
+  joint.motorSpeed = reverse ? -power : power;
   joint.enableMotor = true;
   world.CreateJoint(joint);
 }
