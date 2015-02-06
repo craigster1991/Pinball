@@ -53,11 +53,11 @@ gulp.task('jshint', function() {
 // });
 
 gulp.task('scripts', function() {
-    return gulp.src('development/scripts/js/*.js')
+    return gulp.src(['production/scripts/lib/*.js', 'development/scripts/js/*.js'])
       .pipe(concat('all.js'))
       .pipe(gulp.dest('production/scripts/public'))
       .pipe(rename('all.min.js'))
-      .pipe(uglify())
+      .pipe(uglify({mangle:true}))
       .pipe(gulp.dest('production/scripts/public'))
       .pipe(notify({ message: 'Scripts task complete' }));
 });
