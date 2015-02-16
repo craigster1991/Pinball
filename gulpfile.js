@@ -89,7 +89,8 @@ gulp.task('clean', function() {
 
 gulp.task('cleanjs', function() {
   return gulp.src(['production/scripts/public/all.js'], { read: false })
-    .pipe(rimraf());
+    .pipe(rimraf())
+    .pipe(notify({ message: 'all.js clean task complete' }));
 });
 
 // gulp.task('default', ['clean'], function() {
