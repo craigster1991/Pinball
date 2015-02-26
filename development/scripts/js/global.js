@@ -1,29 +1,12 @@
-var world,
-    interval,
-    canvas,
-    ctx,
-    blueBall,
-    leftInnerPin,
-    rightInnerPin,
-    leftPin,
-    middlePin,
-    rightPin,
-    flipperLeft,
-    flipperRight,
-    box1,
-    box2,
-    listener,
-    floor,
-    tapAnim,
-    polygon;
-var debug = false;
-var keyPressed = false;
-var SCALE = 30;
-var D2R = Math.PI / 180;
-var R2D = 180 / Math.PI;
-var PI2 = Math.PI * 2;
-
-var b2Vec2 = Box2D.Common.Math.b2Vec2,
+var world,interval,canvas,ctx,blueBall,leftInnerPin,rightInnerPin,leftPin,middlePin,rightPin,flipperLeft,flipperRight,box1,box2,listener,floor,tapAnim,polygon,ballBumper,
+    debug = false,
+    keyPressed = false,
+    SCALE = 30,
+    D2R = Math.PI / 180,
+    R2D = 180 / Math.PI,
+    PI2 = Math.PI * 2,
+    score = 0,
+    b2Vec2 = Box2D.Common.Math.b2Vec2,
     b2BodyDef = Box2D.Dynamics.b2BodyDef,
     b2AABB = Box2D.Collision.b2AABB,
     b2Body = Box2D.Dynamics.b2Body,

@@ -32,23 +32,32 @@ function FlipItTap(e) {
 
 function box2d_ballContact() {
   var listener = new b2ContactListener();
-
   listener.EndContact = function(contact) {
     if (contact.GetFixtureA().GetUserData() !== null && contact.GetFixtureB().GetUserData() !== null){
-      if ((contact.GetFixtureA().GetUserData().domObj.selector == '#floor' &&
-            contact.GetFixtureB().GetUserData().domObj.selector == '.circle') ||
-          (contact.GetFixtureB().GetUserData().domObj.selector == '#floor' &&
-            contact.GetFixtureA().GetUserData().domObj.selector == '.circle')) {
-        setTimeout(function(){
-          blueBall.SetLinearVelocity(new b2Vec2(0,0));
-          blueBall.SetAngularVelocity(0);
-          blueBall.SetPosition(new b2Vec2(100/SCALE, 100/SCALE));
-          tapAnim('RESPAWN', null, null);
-        }, 0);
-      }
+      var contactA = contact.GetFixtureA().GetUserData().domObj.selector;
+      var contactB = contact.GetFixtureB().GetUserData().domObj.selector;
+      //ball touching floor:
+      if ( (contactA == '#floor' && contactB == '.circle') || (contactB == '#floor' && contactA == '.circle') ) setTimeout(Respawn, 0);
+      //ball touching bumper:
+      if ( (contactA == '.ball-bumper' && contactB == '.circle') || (contactB == '.ball-bumper' && contactA == '.circle') ) setTimeout(Bump, 0);
     }
   };
-
   this.world.SetContactListener(listener);
+}
+
+function Bump() {
+  console.log('bump');
+  AddScore();
+  tapAnim('Points', null, null);
+  $('.bumper-glow').css({'opacity': '1', 'display': 'block'});
+  $('.bumper-glow').fadeOut(100);
+}
+
+function Respawn() {
+  console.log('respawn');
+  blueBall.SetLinearVelocity(new b2Vec2(0,0));
+  blueBall.SetAngularVelocity(0);
+  blueBall.SetPosition(new b2Vec2(100/SCALE, 100/SCALE));
+  tapAnim('RESPAWN', null, null);
 }
 

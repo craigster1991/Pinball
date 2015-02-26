@@ -12,6 +12,7 @@ function createDOMObjects() {
   leftPin = domCircle($('.static-circle-l'), true, -2);
   rightPin = domCircle($('.static-circle-r'), true, -2);
   middlePin = domCircle($('.centrepin'), true, -2);
+  ballBumper = domCircle($('.ball-bumper'), true, -2);
   floor = domBox($('#floor'), true);
   polygon = domPolygon($('#polygon'), [
     new b2Vec2(0/SCALE, -150/SCALE),
@@ -25,7 +26,7 @@ function createDOMObjects() {
 
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
-  createRevJoint(polygon, middlePin, true, 8, false);
+  createRevJoint(polygon, middlePin, true, 6, false);
   createRevJoint(flipperLeft, leftPin, true, 1000, true);
   createRevJoint(flipperRight, rightPin, false, 1000, true);
 

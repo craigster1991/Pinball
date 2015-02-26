@@ -15,7 +15,7 @@ function init() {
 }
 
 function update() {
-  // world.DrawDebugData();
+  if (debug) world.DrawDebugData();
   world.Step(1 / 30, 30, 30);
   drawDOMObjects();
   // updateMouseDrag();
@@ -45,4 +45,9 @@ function resizeHandler() {
 	canvas.attr('width', $('#container').width());
 	canvas.attr('height', $('#container').height());
   $(window).bind('resize', resizeHandler);
+}
+
+function AddScore() {
+  score=score+100;
+  $('#score').text(score);
 }

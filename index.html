@@ -5,11 +5,14 @@
     <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PINbALL</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:500,300,400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="./production/css/style.css">
+
   </head>
 
   <body>
     <div id="container">
+      <div id="scoresbox"><h1 id="score">0</h1></div>
       <div id="upper-bottom-right-box" class="shape box"></div>
       <div id="upper-bottom-left-box" class="shape box"></div>
       <div class="shape flipper f-left"></div>
@@ -20,6 +23,8 @@
       <div class="static-circle static-circle-il shape"></div>
       <div class="static-circle static-circle-ir shape"></div>
       <div class="centrepin shape"></div>
+      <div class="ball-bumper bumper shape"></div>
+      <div class="bumper bumper-glow shape"></div>
       <div id="floor"></div>
 
       <div id="polygon" class="shape"></div>
@@ -37,6 +42,7 @@
 
   <script type="text/javascript" src="./development/scripts/js/box2dstuff.js"></script>
   <script type="text/javascript" src="./development/scripts/js/DOMobjects.js"></script>
+  <script type="text/javascript" src="./development/scripts/js/tapAnim.js"></script>
   <script type="text/javascript" src="./development/scripts/js/events.js"></script>
   <script type="text/javascript" src="./development/scripts/js/global.js"></script>
   <script type="text/javascript" src="./development/scripts/js/world.js"></script>

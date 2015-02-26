@@ -3,6 +3,7 @@
   padding:0;
   border:none;
   color:#fff;
+  cursor: pointer;
 }
 
 html {
@@ -26,10 +27,29 @@ body {
   right: 0;
   top:0;
   margin: auto;
-  -webkit-box-shadow: 0 0 10px 0 #000000;
   box-shadow: 0 0 10px 0 #000000;
-  -webkit-border-radius: 0px 0px 20px 20px;
   border-radius: 0px 0px 20px 20px;
+  -webkit-box-shadow: 0 0 10px 0 #000000;
+  -webkit-border-radius: 0px 0px 20px 20px;
+}
+
+#scoresbox {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 200px;
+  height: 50px;
+  background-color: #DDD;
+}
+
+#score {
+  width: 200px;
+  height: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  text-align: center;
+  color: #F22;
+  line-height: 50px;
 }
 
 canvas {
@@ -41,6 +61,17 @@ canvas {
   margin: auto;
 }
 
+
+.shape {
+  position: absolute;
+  transform: translate3d(0,0,1px);
+  -webkit-transform: translate3d(0,0,1px);
+  -o-transform: translate3d(0,0,1px);
+  -moz-transform: translate3d(0,0,1px);
+  -ms-transform: translate3d(0,0,1px);
+  opacity: 1;
+}
+
 .circle {
   width:50px;
   height:50px;
@@ -48,8 +79,8 @@ canvas {
   left:325px;
   background: url('../images/sphere.png') no-repeat center center;
   background-size: contain;
-  -webkit-border-radius: 25px 25px 25px 25px;
   border-radius: 25px 25px 25px 25px;
+  -webkit-border-radius: 25px 25px 25px 25px;
 }
 
 .static-circle {
@@ -57,7 +88,28 @@ canvas {
   height: 30px;
   top: 602px;
   background: #b66767;
+  border-radius: 15px;
   -webkit-border-radius: 15px;
+}
+
+.bumper {
+  width: 100px;
+  height: 100px;
+  top: 100px;
+  right: 100px;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  background-image: url('../images/bumper.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-box-shadow: 3px 3px 2px 2px #999999;
+  box-shadow: 3px 3px 2px 2px #999999;
+}
+
+.bumper-glow {
+  background-image: url('../images/bumper-glow.png');
+  opacity: 0;
 }
 
 .static-circle-l {
@@ -76,14 +128,6 @@ canvas {
   left:410px;
 }
 
-.shape {
-  position: absolute;
-  -webkit-transform: translate3d(0,0,1px);
-  -o-transform: translate3d(0,0,1px);
-  -moz-transform: translate3d(0,0,1px);
-  -ms-transform: translate3d(0,0,1px);
-  transform: translate3d(0,0,1px);
-}
 
 .centrepin {
   left: 227px;
@@ -91,6 +135,7 @@ canvas {
   width: 5px;
   height: 5px;
   background-color: #3300EE;
+  border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px;
 }
 
@@ -133,8 +178,8 @@ canvas {
   bottom:-1px;
   background-color: #ba6722;
   position: absolute;
-  -webkit-border-radius: 5px;
   border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
 #polygon {
