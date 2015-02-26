@@ -14,6 +14,7 @@ var world,
     box2,
     listener,
     floor,
+    tapAnim,
     polygon;
 var debug = false;
 var keyPressed = false;

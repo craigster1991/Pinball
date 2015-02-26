@@ -86,7 +86,7 @@ canvas {
 }
 
 .centrepin {
-  left: 397px;
+  left: 227px;
   top: 207px;
   width: 5px;
   height: 5px;
@@ -139,9 +139,32 @@ canvas {
 
 #polygon {
   top: 50px;
-  left: 390px;
+  left: 220px;
   width: 20px;
   height: 300px;
   background: url('../images/polygon.png') no-repeat;
   background-size: cover;
+}
+
+.punch, .bigpunch {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /*right: 0px;
+  bottom: 0px;*/
+  margin: auto;
+  width: auto;
+  height: auto;
+}
+
+.punch h3 {
+  font-family: helvetica, arial, sans-serif;
+  color: #FF0000;
+  font-size: 30px;
+}
+
+.bigpunch h3 {
+  font-family: helvetica, arial, sans-serif;
+  color: #0000FF;
+  font-size: 50px;
 }

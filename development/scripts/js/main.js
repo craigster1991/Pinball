@@ -18,11 +18,11 @@ function update() {
   // world.DrawDebugData();
   world.Step(1 / 30, 30, 30);
   drawDOMObjects();
-  updateMouseDrag();
+  // updateMouseDrag();
   world.ClearForces();
 
   // ctx.clearRect(0, 0, canvas.width(), canvas.height());
-  fps.update(true);
+  fps.update(false);
   // fps.draw();
 }
 

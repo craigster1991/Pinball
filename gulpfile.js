@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-    coffee = require('gulp-coffee'),
+    // coffee = require('gulp-coffee'),
     gutil = require('gulp-util'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
@@ -17,19 +17,19 @@ var gulp = require('gulp'),
     cache = require('gulp-cache');
 
 
-gulp.task('coffee', function() {
-  gulp.src('development/scripts/coffee/*.coffee')
-    .pipe(coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest('development/scripts/coffee_compiled'))
-    .pipe(notify({ message: 'coffee task complete' }));
-});
+// gulp.task('coffee', function() {
+//   gulp.src('development/scripts/coffee/*.coffee')
+//     .pipe(coffee({bare: true}).on('error', gutil.log))
+//     .pipe(gulp.dest('development/scripts/coffee_compiled'))
+//     .pipe(notify({ message: 'coffee task complete' }));
+// });
 
-gulp.task('jshint_coffee', function() {
-    return gulp.src('development/scripts/coffee_compiled/*.js')
-      .pipe(jshint())
-      .pipe(jshint.reporter('default'))
-      .pipe(notify({ message: 'Jshint_coffee task complete' }));
-});
+// gulp.task('jshint_coffee', function() {
+//     return gulp.src('development/scripts/coffee_compiled/*.js')
+//       .pipe(jshint())
+//       .pipe(jshint.reporter('default'))
+//       .pipe(notify({ message: 'Jshint_coffee task complete' }));
+// });
 
 gulp.task('jshint', function() {
     return gulp.src('development/scripts/js/*.js')
@@ -39,7 +39,7 @@ gulp.task('jshint', function() {
 });
 
 // gulp.task('libscripts', function() {
-//     return gulp.src('development/scripts/js/lib/*.js')
+//     return gulp.src('development/scripts/lib/*.js')
 //       .pipe(concat('lib.js'))
 //       .pipe(gulp.dest('production/scripts/public'))
 //       .pipe(notify({ message: 'Lib scripts task complete' }));
@@ -53,7 +53,7 @@ gulp.task('jshint', function() {
 // });
 
 gulp.task('scripts', function() {
-    return gulp.src(['production/scripts/lib/*.js', 'development/scripts/js/*.js'])
+    return gulp.src(['development/scripts/lib/*.js', 'development/scripts/js/*.js'])
       .pipe(concat('all.js'))
       .pipe(gulp.dest('production/scripts/public'))
       .pipe(rename('all.min.js'))
@@ -96,12 +96,11 @@ gulp.task('cleanjs', function() {
 //     gulp.start('coffee', 'jshint_coffee', 'jshint', 'libscripts', 'devscripts', 'scripts', 'images', 'css', 'watch');
 // });
 
-gulp.task('default', sequence('clean', 'coffee', 'jshint_coffee', 'jshint', 'scripts', 'cleanjs', 'images', 'css', 'watch'));
+gulp.task('default', sequence('clean', 'jshint', 'scripts', 'cleanjs', 'images', 'css', 'watch'));
 
 gulp.task('watch', function() {
-  gulp.watch('development/scripts/js/*.js', ['jshint', 'scripts']);
-  gulp.watch('development/scripts/js/lib/*.js', ['jshint', 'scripts']);
-  gulp.watch('development/scripts/coffee/*.js', ['coffee']);
+  gulp.watch('development/scripts/js/*.js', ['jshint', 'scripts', 'cleanjs']);
+  gulp.watch('development/scripts/lib/*.js', ['jshint', 'scripts', 'cleanjs']);
   gulp.watch('development/images/**/*', ['images']);
   gulp.watch('development/css/*.css', ['css']);
 });

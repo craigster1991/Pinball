@@ -1,6 +1,6 @@
 function setUpWorld() {
 
-  world = new b2World(new b2Vec2(0, 10), true);
+  world = new b2World(new b2Vec2(0, 9.8), true);
   var debugDraw = new b2DebugDraw();
   canvas = $("#canvas");
   debugDraw.SetSprite(canvas[0].getContext("2d"));

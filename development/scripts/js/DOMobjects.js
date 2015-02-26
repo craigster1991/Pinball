@@ -25,7 +25,7 @@ function createDOMObjects() {
 
   createWeldJoint(flipperLeft, leftInnerPin, leftInnerPin.GetWorldCenter());
   createWeldJoint(flipperRight, rightInnerPin, rightInnerPin.GetWorldCenter());
-  createRevJoint(polygon, middlePin, true, 0.5, false);
+  createRevJoint(polygon, middlePin, true, 8, false);
   createRevJoint(flipperLeft, leftPin, true, 1000, true);
   createRevJoint(flipperRight, rightPin, false, 1000, true);
 
